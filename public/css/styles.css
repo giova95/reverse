@@ -1,0 +1,256 @@
+/**
+ * styles.css
+ *
+ * Computer Science 50
+ * Problem Set 7
+ *
+ * Global CSS.
+ */
+
+html, body
+{
+    min-width: 200px;
+}
+
+@keyframes rotation {
+    0%      { transform: rotateY(0deg); left: 25px; color: #777; opacity: 1}
+    
+    45%     { transform: rotateY(180deg); left: 0px; color: #77D; }
+    55%     { transform: rotateY(180deg); left: 0px; color: #77D; }
+    
+    90%     { transform: rotateY(360deg); left: 25px; color: #777; opacity: 1}
+    
+    91%    { transform: rotateY(360deg); left: 25px; color: #777; opacity: 0}
+    100%    { transform: rotateY(360deg); left: 25px; color: #777; opacity: 0}
+}
+
+#R
+{
+    display: none;
+    position: absolute;
+    left: 25px;
+}
+
+#logo:hover #R
+{
+    animation: rotation 1s ease;
+    display: inline-block;
+    opacity: 0;
+}
+
+.container
+{
+    /* align contents on the left */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    
+    /* limit the width to 900px */
+    max-width: 900px;
+}
+
+.centered
+{
+    /* center contents */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#top
+{
+    /* Put some margin between this block and others */
+    margin-bottom: 50px;
+}
+
+#middle .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+#bottom
+{
+    /* shrink bottom's font size */
+    font-size: smaller;
+
+    /* surround with whitespace */
+    margin: 20px;
+}
+
+#logo a
+{
+    font-size: 50px;
+    text-decoration: none;
+    color: black;
+}
+
+.game-container
+{
+    max-width: 600px;
+    margin: auto; /* align center */
+}
+
+#controls button
+{
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: larger;
+    margin: 20px;
+}
+
+#check
+{
+    float: right;
+}
+
+#start
+{
+    float: left;
+}
+
+#start:focus, #check:focus
+{
+    outline: none;
+}
+
+#word
+{
+    float: left;
+    box-shadow: 0 0 4px 1px rgba(0,0,0,.075);
+}
+
+#word, #rword
+{
+    width: calc(50% - 50px)!important;
+}
+
+#rword
+{
+    float: right;
+}
+
+#rword.success
+{
+    background-color: rgba(100,250,100,0.4);
+    border-color: rgb(30, 220, 30);
+}
+
+#rword.failure
+{
+    background-color: rgba(250, 100, 100, 0.4);
+    border-color: rgb(220, 30, 30);
+}
+
+
+.info
+{
+    padding: 5px 8px;
+    border-radius: 5px;
+}
+
+.points
+{
+    margin: 8px;
+    font-weight: bolder;
+    position: absolute;
+    left: calc(50% - 30px);
+    top: 100%;
+}
+
+.points-added
+{
+    color: #4D4;
+}
+
+.points-added::before
+{
+    content: "+";
+}
+
+.points-removed
+{
+    color: #F32;
+}
+
+@keyframes level_updated {
+    0%      { transform: scale(1);}
+    50%     { transform: scale(1.3);}
+    100%    { transform: scale(1);}
+}
+
+.level-animation
+{
+    animation: level_updated 0.8s;
+}
+
+.glyphicon.arrow
+{
+    color: #5BC;
+    font-size: 30px;
+}
+
+/***** Edits over bootstrap. *****/
+.navbar-brand
+{
+    /* Make the brand appears centered on little screen */
+    float: none!important;
+    display: block;
+    
+    /* Make the brand a bit larger */
+    font-size: 25px;
+    
+}
+
+/* set a little border on info blocks */
+.bg-info
+{
+    border: 1px solid #cde;
+}
+
+/** Media modification **/
+@media (min-width: 550px) { /* Make the navbar appear as a bar on top */
+    .navbar-nav.navbar-right:last-child
+    {
+        margin-right: -15px;
+    }
+    
+    .navbar-right
+    {
+        float: right!important;
+    }
+    
+    .navbar-nav, .navbar-nav>li, .container-fluid>.navbar-header
+    {
+        float: left;
+    }
+}
+@media (min-width: 550px) and (max-width: 600px) { /* Reduce padding on little screen */
+    .nav>li>a {
+        padding: 10px 5px;
+    }
+}
+/* Change the layout on very little screen */
+@media (max-width: 550px) { 
+    .nav>li>a, .navbar-brand {
+        text-align: center;
+    }
+    
+    #middle .form-control {
+        display: block;
+        margin: auto;
+        width: 80%!important;
+        float: none;
+    }
+    
+    .glyphicon-menu-right {
+        transform: rotateZ(90deg);
+    }
+    
+    #controls button {
+        margin: 20px 0;
+    }
+}

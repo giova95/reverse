@@ -1,0 +1,102 @@
+#!/usr/bin/env php
+<?php
+    
+    /***************************************************************************
+    * import.php
+    *
+    * Computer Science 50
+    * Final project
+    *
+    * Import words from file to the database.
+    ***************************************************************************/
+    
+    // we are working on server for internal configuration
+    define("NOT_WEB", true);
+    
+    // configuration
+    require(__DIR__ . "/../includes/config.php");
+    
+    // define some additional costants
+    define("DICTIONARY", "/usr/share/dict/words");
+    
+    // open the dictionary file (try to)
+    $dict = fopen(DICTIONARY, "r") or exit("Some error occured opening " . DICTIONARY);
+    
+    // keep track of how many words we read from the dictionary
+    $total = 0;
+    // keep track of how many words we store in the database
+    $stored = 0;
+    
+    // loop until we can
+    while ( ($line = fgets($dict)) !== false)
+    {
+        // remove the trailing newline
+        $line = trim($line);
+        
+        // we have read another line
+        $total += 1;
+        
+        // proceed only if the line matches our requirements 
+        if (check($line) === true)
+        {
+            $result = query("INSERT INTO " . WORDS_TABLE . " (length, word) VALUES(?, ?)", strlen($line), $line);
+            
+            // does the query succeded?
+            if ($result !== false)
+            {
+                // increment the counter of words stored
+                $stored += 1;
+            }
+            else 
+            {
+                // print the error
+                echo "Error, do not stored: $line\n";
+            }
+        }
+    }
+    
+    // did we reach the end of file?
+    if (!feof($dict))
+    {
+        echo "Error: unexpected fail of fgets()\n";
+    }
+    
+    print("Read: $total lines\nStored: $stored words\nRejected: ". ($total - $stored) . ".\n");
+    
+    // close the file
+    fclose($dict);
+    
+    // that's all
+    exit;
+    
+    
+    /**
+    * Decleare some addictional function
+    */
+    
+    // Return true if the line matches the requirements, otherwise return false
+    function check($line)
+    {
+        global $total;
+        
+        // check length requirements (length has to be between MIN and MAX)
+        if (strlen($line) < MIN_LENGTH or strlen($line) > MAX_LENGTH)
+        {
+            return false;
+        }
+        // check content requirements (line has to contain only lower alphabetic letters)
+        if (ctype_lower($line) === false)
+        {
+            return false;
+        }
+        
+        if ($total < 50)
+        {
+            echo $line;
+        }
+        
+        // the line matches all the requirements. Return true
+        return true;
+    } // end function check
+    
+?>
